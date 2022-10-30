@@ -9,3 +9,15 @@ export default function App({ Component, pageProps }: AppProps) {
     </ChakraProvider>
   );
 }
+
+/**
+connect wallet
+check for NFT ownership
+cross check device MAC address with NFT metadata
+print editions for multiple ownerships
+signature for various actions
+
+FROM CARDINAL
+Invalidation of a particular NFT
+time based NFTs that get invalidated once a time period is over
+ */
