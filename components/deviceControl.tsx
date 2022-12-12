@@ -1,14 +1,23 @@
-import { Box, Button, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import getProvider from "../utils/getProvider";
+import ESP0 from "./esp0";
+import ESP1 from "./esp1";
+
+enum Device {
+  none,
+  esp0,
+  esp1,
+  raspi,
+}
 
 const DeviceControlSection = () => {
-  const [bulb, setBulb] = useState("off");
+  const [device, setDevice] = useState(Device.none);
   const provider = getProvider();
 
   return (
-    <Box>
-      <Flex mx="15rem" my="8%" flexDirection="row">
+    <Box mx="15rem">
+      <Flex my="8%" flexDirection="row">
         <Button
           onClick={async () => {
             if (provider != undefined) {
@@ -21,24 +30,35 @@ const DeviceControlSection = () => {
             }
           }}
         >
-          Connect to device 1
+          Connect to wallet
         </Button>
       </Flex>
-      <Flex mx="15rem" my="8%" flexDirection="row">
+      <Text>Choose the device</Text>
+      <Flex my="5%" gap="5">
         <Button
-          onClick={async () => {
-            if (bulb == "on") {
-              await fetch("http://172.20.10.13/off");
-              setBulb("off");
-            } else {
-              await fetch("http://172.20.10.13/on");
-              setBulb("on");
-            }
+          onClick={() => {
+            setDevice(Device.esp0);
           }}
         >
-          Turn {`${bulb == "on" ? "off" : "on"}`} LED on device 1
+          ESP #1
+        </Button>
+        <Button
+          onClick={() => {
+            setDevice(Device.esp1);
+          }}
+        >
+          ESP #2
+        </Button>
+        <Button
+          onClick={() => {
+            setDevice(Device.raspi);
+          }}
+        >
+          Raspberry Pi 4
         </Button>
       </Flex>
+      {device == Device.esp0 && <ESP0 />}
+      {device == Device.esp1 && <ESP1 />}
     </Box>
   );
 };
